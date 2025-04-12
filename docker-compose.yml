@@ -1,0 +1,36 @@
+version: '3.8' # Sử dụng phiên bản phù hợp
+services:
+  backend:
+    build:
+      context: ./angular
+      dockerfile: Dockerfile
+    container_name: asmanguler-be
+    ports:
+      - "3000:3000"
+    environment:
+      # Sử dụng hostname đặc biệt để kết nối ra máy host
+      MONGO_URI: mongodb://host.docker.internal:27017/portfolio 
+      JWT_SECRET: ${JWT_SECRET:-supersecretkey}
+      PORT: ${PORT:-3000}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      NODE_ENV: production
+    # Thêm extra_hosts nếu host.docker.internal không hoạt động (ít gặp hơn)
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  # ... dịch vụ frontend ...
+  # Dịch vụ Frontend (Angular + Nginx)
+
+
+  frontend:
+    build:
+      context: ./ASM
+      dockerfile: Dockerfile
+    container_name: asm-fe
+    ports:
+      - "4200:4200" 
+    depends_on:
+      - backend
+    restart: unless-stopped
