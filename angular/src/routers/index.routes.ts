@@ -11,7 +11,7 @@ export function router(app: Application){
       app.get("/home", index);
       app.get("/lienhe", lienhe);
       app.post("/lienhe", postContact);
-      app.get("/project/:id", getProjectById as (req: Request, res: Response) => void);
+      app.get("/anhulproject/:id", getProjectById as (req: Request, res: Response) => void);
       app.get('/pdf/view', showFile);      
       app.get('/pdf/download', downloadFile);
       app.get('/pdf', renderView);
